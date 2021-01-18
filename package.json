@@ -1,0 +1,13 @@
+{
+  "name": "artificial-neural-network",
+  "version": "1.0.0",
+  "description": "",
+  "type":"module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"node index.js"
+  },
+  "author": "João Vitor Muniz Lopes <joaovitormunizlopes.com> (https://github.com/joaovitor32)",
+  "license": "ISC"
+}
