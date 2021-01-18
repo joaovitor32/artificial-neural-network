@@ -1,23 +1,25 @@
 import Perceptron from './modules/Perceptron.js';
 
-let entries = [1,2,3,4,5,6]
-
 let activationThreshold= 1
 
 let learningRate = 0.01;
-let epochs = 25;
+let epochs = 50;
 let weights = [activationThreshold,2,4,1,9,123]
-let trainingSample = [-1,7,8,9,10,11];
-let desiredValues = [2,3,6,2,3,4];
+let desiredValues = [1,-1,-1,1,1,-1];
+
+let trainingSample1 = [-1,7,8,9,10,11];
+let trainingSample2 = [-1,5,6,1,2,31];
 
 let perceptron = new Perceptron(
-    entries,
     weights,
     activationThreshold,
     learningRate,
-    trainingSample,
     desiredValues,
     epochs
 );
 
-console.log(perceptron.training());
+perceptron.training(trainingSample1);
+perceptron.training(trainingSample1);
+
+let groupA,groupB = perceptron.operationPhase(trainingSample2[2]);
+console.log(groupA,groupB)

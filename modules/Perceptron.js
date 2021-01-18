@@ -7,54 +7,55 @@ class Perceptron {
     //limite de ativação
     activationThreshold = 0;
     weights = []
-    entries = []
     learningRate = 0;
     trainingSample = []
     desiredValues = []
     epochs = 0;
 
     constructor(
-        entries,
         weights,
         activationThreshold,
         learningRate,
-        trainingSample,
         desiredValues,
         epochs
     ) {
 
         this.learningRate = learningRate;
         this.activationThreshold = activationThreshold;
-        this.trainingSample = [...trainingSample];
         this.desiredValues = [...desiredValues];
         this.weights = [...weights];
-        this.entries = [...entries];
         this.epochs = epochs;
-
-        if (entries.length != weights.length) {
-            throw new Error('Entries array differ from weights array in size')
-        }
-
-        entries.forEach((element, index) => {
-            this.somatory += element * weights[index];
-        });
 
     }
 
     //u
-    activationPotential() {
 
-        return this.somatory - this.activationThreshold;
+    sum(trainingSample) {
 
+        let sum=0;
+
+        if(trainingSample.length!=this.weights.length){
+            throw new Error('Samples does not match size of weigths array');
+        }
+
+        trainingSample.forEach((element, index) => {
+            sum += element * this.weights[index];
+        });
+
+        return sum;
+    }
+
+    activationPotential(trainingSample) {
+        return this.sum(trainingSample) - this.activationThreshold;
     }
 
     //y=g(u)
-    activationFunction() {
+    activationFunction(u) {
 
         let result;
 
         //Função Degrau sendo utilizada
-        if (this.activationPotential() >= 0) {
+        if (u >= 0) {
             result = 1;
         } else {
             result = -1
@@ -64,7 +65,7 @@ class Perceptron {
 
     }
 
-    training() {
+    training(trainingSample) {
 
         /*this.weights.forEach((element,index) => {
             
@@ -76,34 +77,60 @@ class Perceptron {
         let error = false;
         let i = 0;
         let y = 0;
+        let u = 0;
 
-        while (!error) {
+        while (i < this.epochs) {
 
-            while (i < this.epochs) {
+            while (!error) {
 
-                for (let k = 0; k < this.desiredValues.length - 1; k++) {
+                this.desiredValues.forEach((elem, index) => {
 
-                    y = this.activationFunction();
+                    u = this.activationPotential(trainingSample);
+                    y = this.activationFunction(u);
 
-                    if (y != this.desiredValues[k]) {
+                    if (y != this.desiredValues[index]) {
 
-                        for (let j = 0; j < this.weights.length - 1; j++) {
+                        for (let j = 0; j < this.weights.length; j++) {
 
-                            this.weights[j] = this.weights[j] + this.learningRate * (this.desiredValues[k] - this.activationFunction()) * this.trainingSample[k];
+                            this.weights[j] = this.weights[j] + this.learningRate * (this.desiredValues[index] - this.activationFunction()) * trainingSample[index];
 
                         }
 
                         error = true;
 
                     }
-                }
 
-                i++;
+                })
+
             }
+            i++;
+        }
+    }
+
+    operationPhase(sample) {
+
+        let y = 0;
+        let u = 0;
+        let groupA = [];
+        let groupB = [];
+
+        this.weights.forEach((element, index) => {
+            u += element * sample;
+        });
+
+        y = this.activationFunction();
+
+        if (y == -1) {
+
+            groupA.push(sample)
+
+        } else if (y == 1) {
+
+            groupB.push(sample)
+
         }
 
-        console.log(this.activationThreshold);
-        console.log(this.weights);
+        return { groupA, groupB }
 
     }
 
