@@ -60,7 +60,7 @@ class Perceptron {
         } else {
             result = -1
         }
-
+   
         return result;
 
     }
