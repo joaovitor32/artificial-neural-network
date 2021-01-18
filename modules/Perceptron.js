@@ -8,7 +8,6 @@ class Perceptron {
     activationThreshold = 0;
     weights = []
     learningRate = 0;
-    trainingSample = []
     desiredValues = []
     epochs = 0;
 
@@ -92,7 +91,7 @@ class Perceptron {
 
                         for (let j = 0; j < this.weights.length; j++) {
 
-                            this.weights[j] = this.weights[j] + this.learningRate * (this.desiredValues[index] - this.activationFunction()) * trainingSample[index];
+                            this.weights[j] = this.weights[j] + this.learningRate * (this.desiredValues[index] - y) * trainingSample[index];
 
                         }
 
