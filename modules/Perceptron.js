@@ -1,10 +1,8 @@
-import transposeArray from '../utils/TransposeArray.js'
-
 class Perceptron {
 
     somatory = 0;
 
-    //limite de ativação
+    //limite de ativação - Bias
     activationThreshold = 0;
     weights = []
     learningRate = 0;
@@ -30,11 +28,11 @@ class Perceptron {
     //u
 
     sum(trainingSample) {
-
+       
         let sum=0;
-
-        if(trainingSample.length!=this.weights.length){
-            throw new Error('Samples does not match size of weigths array');
+        
+        if(!trainingSample){
+            return;
         }
 
         trainingSample.forEach((element, index) => {
@@ -84,29 +82,30 @@ class Perceptron {
 
                 this.desiredValues.forEach((elem, index) => {
 
-                    u = this.activationPotential(trainingSample);
+                    if(this.desiredValues.length!=trainingSample[index].length){
+                        throw new Error('Incompatible arrays in size')
+                    }
+                    
+                    u = this.activationPotential(trainingSample[index]);
                     y = this.activationFunction(u);
 
                     if (y != this.desiredValues[index]) {
-
                         for (let j = 0; j < this.weights.length; j++) {
-
-                            this.weights[j] = this.weights[j] + this.learningRate * (this.desiredValues[index] - y) * trainingSample[index];
-
+                               
+                                this.weights[j] = this.weights[j] + this.learningRate * (this.desiredValues[index] - y) * trainingSample[index][j];
+                    
                         }
 
                         error = true;
-
                     }
 
                 })
-
             }
             i++;
         }
     }
 
-    operationPhase(sample) {
+    classification(sample) {
 
         let y = 0;
         let u = 0;
@@ -114,23 +113,19 @@ class Perceptron {
         let groupB = [];
 
         this.weights.forEach((element, index) => {
-            u += element * sample;
+            u += element * sample[index];
         });
 
-        y = this.activationFunction();
+        y = this.activationFunction(u);
 
         if (y == -1) {
-
             groupA.push(sample)
-
         } else if (y == 1) {
-
             groupB.push(sample)
 
         }
 
         return { groupA, groupB }
-
     }
 
 }
