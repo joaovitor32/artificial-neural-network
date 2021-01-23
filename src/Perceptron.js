@@ -54,6 +54,9 @@ class Perceptron {
 
     training(trainingSample) {
 
+        let max=1;
+        let min=-1;
+
         /*this.weights.forEach((element,index) => {
             
             this.activationThreshold=   this.activationThreshold+this.learningRate*(this.desiredValues[index]-this.activationFunction())*(-1);
@@ -61,14 +64,16 @@ class Perceptron {
 
         });*/
         
-        for(let i=0;i<trainingSample.length;i++){
-            trainingSample[i].unshift(-1);
-        }
-
+        trainingSample[0].forEach((_,index)=>{
+            trainingSample[index].unshift(-1);
+        })
+        
         this.weights.unshift(this.activationThreshold);
-        for (let i = 1; i <= trainingSample[0].length; i++) {
-            this.weights[i] =  Math.floor(Math.random() -1);
-        }
+        trainingSample[0].forEach((_,index)=>{
+            if(index>0){
+                this.weights[index] = Math.random() * (max - min) + min;
+            }
+        })
 
         let error = false;
         let i = 0;
