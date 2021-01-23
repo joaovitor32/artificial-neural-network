@@ -1,14 +1,16 @@
-import Perceptron from './modules/Perceptron.js';
+import Perceptron from './src/Perceptron.js';
 
 //limite de ativação - Bias
 let activationThreshold= 1
 
 let learningRate = 0.01;
 let epochs = 50;
-let weights = [activationThreshold,2,4,1,9,123]
+
 let desiredValues = [1,-1,-1,1,1,-1];
 
+let weightsLength = 3
 
+//-1 pra evitar um caso do tipo => y = 0*x+b
 let trainingSample = [
     [-1,7,8,9,10,11],
     [-1,5,6,1,2,31],
@@ -21,7 +23,6 @@ let trainingSample = [
 let classifyArray = [1,2,3,6,5,4]
 
 let perceptron = new Perceptron(
-    weights,
     activationThreshold,
     learningRate,
     desiredValues,
