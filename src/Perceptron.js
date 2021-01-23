@@ -1,5 +1,8 @@
 class Perceptron {
 
+    max=1;
+    min=-1
+
     somatory = 0;
 
     //limite de ativação - Bias
@@ -23,6 +26,14 @@ class Perceptron {
         this.activationThreshold = activationThreshold;
         this.desiredValues = [...desiredValues];
         this.epochs = epochs;
+
+        this.weights.unshift(this.activationThreshold);
+        desiredValues.forEach((_,index)=>{
+            if(index>0){
+                this.weights[index] = Math.random() * (this.max - this.min) + this.min;
+            }
+        })
+
     }
 
     activationPotential(trainingSample) {
@@ -54,9 +65,6 @@ class Perceptron {
 
     training(trainingSample) {
 
-        let max=1;
-        let min=-1;
-
         /*this.weights.forEach((element,index) => {
             
             this.activationThreshold=   this.activationThreshold+this.learningRate*(this.desiredValues[index]-this.activationFunction())*(-1);
@@ -68,13 +76,6 @@ class Perceptron {
             trainingSample[index].unshift(-1);
         })
         
-        this.weights.unshift(this.activationThreshold);
-        trainingSample[0].forEach((_,index)=>{
-            if(index>0){
-                this.weights[index] = Math.random() * (max - min) + min;
-            }
-        })
-
         let error = false;
         let i = 0;
         let y = 0;
