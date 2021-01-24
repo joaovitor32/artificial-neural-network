@@ -1,26 +1,17 @@
 import Perceptron from './src/Perceptron.js';
 
-//limite de ativação - Bias
-let activationThreshold= 1
 
-let learningRate = 0.01;
-let epochs = 50;
+let learningRate = 0.1;
+let epochs = 1000;
+let activationThreshold = -1;
+let desiredValues = [1, -1, -1, 1]
 
-let desiredValues = [1,-1,-1,1,1,-1];
+let A = [0.1, 0.4, 0.7];
+let B = [0.3, 0.7, 0.2];
+let C =  [0.6, 0.9, 0.8];
+let D =  [0.5, 0.7, 0.1];
 
-let weightsLength = 3
-
-//-1 pra evitar um caso do tipo => y = 0*x+b
-let trainingSample = [
-    [-1,7,8,9,10,11],
-    [-1,5,6,1,2,31],
-    [-1,4,2,1,4,5],
-    [-1,2,3,1,120,113],
-    [-1,25,63,14,21,311],
-    [-1,412,221,1123,214,53],
-]
-
-let classifyArray = [1,2,3,6,5,4]
+let trainingSample = [A,B,C,D]
 
 let perceptron = new Perceptron(
     activationThreshold,
@@ -29,7 +20,15 @@ let perceptron = new Perceptron(
     epochs
 );
 
+
 perceptron.training(trainingSample);
 
-let groupA,groupB = perceptron.classification(classifyArray);
-console.log(groupA,groupB)
+perceptron.classification([0.1, 0.4, 0.7]);
+perceptron.classification([0.3, 0.7, 0.2]);
+perceptron.classification([0.6, 0.9, 0.8]);
+perceptron.classification([0.5, 0.7, 0.1]);
+
+let {groupA,groupB} = perceptron.getClassificationGroups();
+
+//expect(groupA).toMatchObject([trainingSample[1],trainingSample[2]])
+//expect(groupB).toMatchObject([trainingSample[0],trainingSample[3]])
