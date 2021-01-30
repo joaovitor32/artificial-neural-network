@@ -9,21 +9,33 @@ export default class MultilayerPerceptron{
     epochs = 0;
     precision;
     sizeLayers=[];
+    numInputs = 0;
+    numHidden = 0;
+    numOutput = 0;
     
     constructor(
         activationThreshold=-1,
         learningRate=0.15,
         desiredValues,
         epochs=100,
-        sizeLayers,
+        numInputs,
+        numHidden,
+        numOutput,
+
+        input = [],
+        hidden = [],
+        output = []
+        
     ) {
 
         this.learningRate = learningRate;
         this.activationThreshold = activationThreshold;
         this.desiredValues = [...desiredValues];
         this.epochs = epochs;
-        this.sizeLayers = sizeLayers;
-
+        
+        this.numInputs=numInputs;
+        this.numHidden=numHidden;
+        this.numOutput=numOutput;
 
 
     }
