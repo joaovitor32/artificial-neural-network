@@ -11,7 +11,8 @@ class Perceptron {
     learningRate = 0;
     desiredValues = []
     epochs = 0;
-    
+
+
     groupA = [];
     groupB = [];
 
@@ -56,12 +57,11 @@ class Perceptron {
         return sum;
     }
 
-    //y=g(u)
+    //y=g(u) - Sign function being utilized
     activationFunction(u) {
 
         let result;
        
-        //Função Degrau sendo utilizada
         if (u >= 0) {
             result = 1;
         } else {
@@ -70,6 +70,15 @@ class Perceptron {
    
         return result;
 
+    }
+
+    //y = g'(u) - Derivative sign function being utilized
+    derivativeActivationFunction(u) {
+
+        //Using math definition of derivative
+        var h = 0.00000001;
+        return (this.activationFunction(u + h) - this.activationFunction(u)) /h;
+      
     }
 
     training(trainingSample) {
@@ -123,17 +132,46 @@ class Perceptron {
         u = this.activationPotential(sample);
         y = this.activationFunction(u);
        
-        if (y == -1) {
-            this.groupA.push(sample)
-        } else if (y == 1) {
-            this.groupB.push(sample)
+        return y;
 
-        }
     }
 
-    getClassificationGroups(){
-        return { groupA:this.groupA,groupB: this.groupB }
+    
+    forward(inputs){
+
+        let inputSum=0;
+        let output = 0
+
+        inputSum = this.activationPotential(inputs);
+        output = this.activationFunction(inputSum);
+
+        return {output,inputSum};
+
+
     }
+
+    backward(inputs){
+
+        let gradienteDescendente = 0;
+        let sumInputs = this.activationPotential(inputs);
+        let I = this.derivativeActivationFunction(sumInputs)
+        
+        let y = this.classification(inputs);
+    
+        this.desiredValues.forEach((elem)=>{
+
+            gradienteDescendente += (elem-y)*I
+
+        })
+        
+        this.weights.forEach((elem,index)=>{
+
+            this.weights[index] = this.weights[index]*this.learningRate*gradienteDescendente*inputs[index]
+
+        })
+        
+    }
+
 
 }
 

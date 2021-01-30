@@ -3,17 +3,17 @@ import Perceptron from '../src/Perceptron.js';
 describe('Perceptron test', () => {
 
 
-  it('Classification Testing', () => {
+  it('Classification Testing - 1', () => {
 
     let learningRate = 0.1;
     let epochs = 1000;
     let activationThreshold = -1;
     let desiredValues = [1, -1, -1, 1]
 
-    let A = [0.1, 0.4, 0.7];
-    let B = [0.3, 0.7, 0.2];
-    let C =  [0.6, 0.9, 0.8];
-    let D =  [0.5, 0.7, 0.1];
+    const A = [0.1, 0.4, 0.7];
+    const B = [0.3, 0.7, 0.2];
+    const C =  [0.6, 0.9, 0.8];
+    const D =  [0.5, 0.7, 0.1];
     
     let trainingSample = [A,B,C,D]
 
@@ -26,16 +26,11 @@ describe('Perceptron test', () => {
     
     
     perceptron.training(trainingSample);
-
-    perceptron.classification([0.1, 0.4, 0.7]);
-    perceptron.classification([0.3, 0.7, 0.2]);
-    perceptron.classification([0.6, 0.9, 0.8]);
-    perceptron.classification([0.5, 0.7, 0.1]);
-
-    let {groupA,groupB} = perceptron.getClassificationGroups();
-
-    expect(groupA).toMatchObject([[ -1, 0.3, 0.7, 0.2 ], [ -1, 0.6, 0.9, 0.8 ]])
-    expect(groupB).toMatchObject([[ -1, 0.1, 0.4, 0.7 ], [ -1, 0.5, 0.7, 0.1 ]])
+ 
+    expect(perceptron.classification([0.1, 0.4, 0.7])).toBe(1);
+    expect(perceptron.classification([0.3, 0.7, 0.2])).toBe(-1);
+    expect(perceptron.classification([0.6, 0.9, 0.8])).toBe(-1);
+    expect(perceptron.classification([0.5, 0.7, 0.1])).toBe(1);
 
   })
 })
