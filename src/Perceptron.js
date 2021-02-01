@@ -148,7 +148,7 @@ class Perceptron {
     }
 
     backward(inputs){
-        
+       
         inputs.unshift(-1);
         
         let gradienteDescendente = 0;
@@ -160,6 +160,8 @@ class Perceptron {
         this.desiredValues.forEach((elem)=>{
             gradienteDescendente += (elem-y)*I
         })
+
+        console.log(this.weights);
 
         this.weights.forEach((elem,index)=>{
             this.weights[index] = this.weights[index]*this.learningRate*gradienteDescendente*inputs[index]

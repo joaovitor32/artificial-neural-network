@@ -55,40 +55,37 @@ export default class MultilayerPerceptron {
         let oldError = 100
         let inputs = new Array(3);
         let Y = 0;
-       
+
         while (epc < this.epochs) {
            
             this.desiredValues.forEach((elem, index) => {
 
                 /*-------- Foward ----------*/
                 inputs = Array.from(this.trainingSamples[index])
-
                 for (let j = 0; j < this.rows; j++) {
                     oldError=error;
                     for (let i = 0; i < this.cols; i++) {
-                    
-                        Y = this.neuralNetwork[j][i].forward(inputs);
-                        error += (1 / 2) * (elem - Y)             
+                      
+                        Y = this.neuralNetwork[j][i].forward(inputs);   
+                        this.neuralNetwork[j][i].backward(inputs);    
                         inputs[j]=Y;   
 
+                        if(j===this.cols-1){
+                            error +=  (elem - Y)^2;
+                            error =(1 / 2)*error; 
+                            error = (1/inputs.length)*error;     
+                        }
+                        
                     }
-
-                    error = error * (1 /inputs.length)     
-
-                    /*----------- Backward -----------*/
-                    for (let i = 0; i < this.cols; i++) {
-                        this.neuralNetwork[j][i].backward(inputs);
-                    }
-
-                    if(error-oldError<=this.precision){
-                        break;
-                    }
-
                     inputs=[]
                 }
-
+    
             })
-            
+
+            if(Math.abs(error-oldError)<=this.precision){
+                break;
+            }
+    
             epc++;
         }
 
