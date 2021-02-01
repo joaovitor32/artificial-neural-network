@@ -1,7 +1,8 @@
 import Perceptron from './Perceptron.js';
 
-export default class MultilayerPerceptron {
+"use strict";
 
+export default class MultilayerPerceptron {
     activationThreshold = 0;
     weights = []
     learningRate = 0;
@@ -25,9 +26,9 @@ export default class MultilayerPerceptron {
 
         this.learningRate = learningRate;
         this.activationThreshold = activationThreshold;
-        this.desiredValues = [...desiredValues];
+        this.desiredValues =  Array.from(desiredValues);
         this.epochs = epochs;
-        this.trainingSamples = [...trainingSamples]
+        this.trainingSamples = Array.from(trainingSamples);
         this.precision = precision;
         this.rows = rows;
         this.cols = cols;
@@ -50,32 +51,44 @@ export default class MultilayerPerceptron {
     trainingMLP() {
 
         let epc = 0;
-        let erro = 0;
+        let error = 20;
+        let oldError = 100
         let inputs = new Array(3);
         let Y = 0;
-
+       
         while (epc < this.epochs) {
-
+           
             this.desiredValues.forEach((elem, index) => {
 
                 /*-------- Foward ----------*/
-                inputs = this.trainingSamples[index]               
-                for(let j = 0; j < this.rows; j++){
+                inputs = Array.from(this.trainingSamples[index])
 
-                    for (let i = 0; i < this.cols ; i++) {
-
+                for (let j = 0; j < this.rows; j++) {
+                    oldError=error;
+                    for (let i = 0; i < this.cols; i++) {
+                    
                         Y = this.neuralNetwork[j][i].forward(inputs);
-                        inputs[j]=Y;
-            
+                        error += (1 / 2) * (elem - Y)             
+                        inputs[j]=Y;   
+
                     }
-                   
+
+                    error = error * (1 /inputs.length)     
+
+                    /*----------- Backward -----------*/
+                    for (let i = 0; i < this.cols; i++) {
+                        this.neuralNetwork[j][i].backward(inputs);
+                    }
+
+                    if(error-oldError<=this.precision){
+                        break;
+                    }
+
+                    inputs=[]
                 }
 
             })
-
-            /*----------- Backward -----------*/
-
-
+            
             epc++;
         }
 

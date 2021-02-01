@@ -21,7 +21,7 @@ class Perceptron {
 
         this.learningRate = learningRate;
         this.activationThreshold = activationThreshold;
-        this.desiredValues = [...desiredValues];
+        this.desiredValues = Array.from(desiredValues);
         this.epochs = epochs;
 
         this.fillWeightArray(desiredValues.length)
@@ -134,9 +134,11 @@ class Perceptron {
 
     
     forward(inputs){
-
+       
         let inputSum=0;
         let output = 0
+
+        inputs.unshift(-1);
 
         inputSum = this.activationPotential(inputs);
         output = this.activationFunction(inputSum);
@@ -147,6 +149,8 @@ class Perceptron {
 
     backward(inputs){
         
+        inputs.unshift(-1);
+        
         let gradienteDescendente = 0;
         let sumInputs = this.activationPotential(inputs);
         let I = this.derivativeActivationFunction(sumInputs)
@@ -156,7 +160,7 @@ class Perceptron {
         this.desiredValues.forEach((elem)=>{
             gradienteDescendente += (elem-y)*I
         })
-        
+
         this.weights.forEach((elem,index)=>{
             this.weights[index] = this.weights[index]*this.learningRate*gradienteDescendente*inputs[index]
         })
