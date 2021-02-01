@@ -12,10 +12,6 @@ class Perceptron {
     desiredValues = []
     epochs = 0;
 
-
-    groupA = [];
-    groupB = [];
-
     constructor(
         activationThreshold=-1,
         learningRate=0.15,
@@ -145,13 +141,12 @@ class Perceptron {
         inputSum = this.activationPotential(inputs);
         output = this.activationFunction(inputSum);
 
-        return {output,inputSum};
-
+        return output;   
 
     }
 
     backward(inputs){
-
+        
         let gradienteDescendente = 0;
         let sumInputs = this.activationPotential(inputs);
         let I = this.derivativeActivationFunction(sumInputs)
