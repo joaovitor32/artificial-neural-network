@@ -53,9 +53,11 @@ export default class MultilayerPerceptron {
         let epc = 0;
         let error = 20;
         let oldError = 100
-        let inputs = [];
-        let newInputs=[]
+        let outputs = [];
+        let newOutputs=[]
         let Y = 0;
+
+        newOutputs[0]= this.trainingSamples[0]
 
         while (epc < this.epochs) {
            
@@ -63,15 +65,11 @@ export default class MultilayerPerceptron {
 
                 /*-------- Foward ----------*/
                 for (let j = 0; j < this.rows; j++) {               
-
+                
                     for (let i = 0; i < this.cols; i++) {
-                        
-                        if(i==0){
-                            inputs[0]= this.trainingSamples[index]
-                        }
-
-                        Y = this.neuralNetwork[j][i].forward(inputs); 
-                        newInputs[i]=Y
+                    
+                        Y = this.neuralNetwork[j][i].forward(newOutputs); 
+                        newOutputs[i]=Y
 
                         /*----------- Backpropagation is going in to the wrong direction ------------
                         this.neuralNetwork[j][i].backward(inputs);  
@@ -82,13 +80,12 @@ export default class MultilayerPerceptron {
                             oldError=Object.freeze(error);
                             error +=  (elem - Y)^2;
                             error =(1 / 2)*error; 
-                            error = (1/inputs.length)*error;     
+                            error = (1/outputs.length)*error;     
                         }
                           
                     }
-
-                    inputs.push(newInputs)             
-                    newInputs=[]
+                    outputs.push(newOutputs)             
+                    newOutputs=[]
                 }
     
             })
