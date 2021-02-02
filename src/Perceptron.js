@@ -138,7 +138,7 @@ class Perceptron {
         let inputSum=0;
         let output = 0
 
-        inputs.unshift(-1);
+        //inputs.unshift(-1);
 
         inputSum = this.activationPotential(inputs);
         output = this.activationFunction(inputSum);
@@ -149,7 +149,7 @@ class Perceptron {
 
     backward(inputs){
        
-        inputs.unshift(-1);
+        //inputs.unshift(-1);
         
         let gradienteDescendente = 0;
         let sumInputs = this.activationPotential(inputs);
@@ -160,9 +160,7 @@ class Perceptron {
         this.desiredValues.forEach((elem)=>{
             gradienteDescendente += (elem-y)*I
         })
-
-        console.log(this.weights);
-
+        
         this.weights.forEach((elem,index)=>{
             this.weights[index] = this.weights[index]*this.learningRate*gradienteDescendente*inputs[index]
         })

@@ -53,7 +53,8 @@ export default class MultilayerPerceptron {
         let epc = 0;
         let error = 20;
         let oldError = 100
-        let inputs = new Array(3);
+        let inputs = [];
+        let newInputs=[]
         let Y = 0;
 
         while (epc < this.epochs) {
@@ -61,27 +62,37 @@ export default class MultilayerPerceptron {
             this.desiredValues.forEach((elem, index) => {
 
                 /*-------- Foward ----------*/
-                inputs = Array.from(this.trainingSamples[index])
-                for (let j = 0; j < this.rows; j++) {
-                    oldError=error;
-                    for (let i = 0; i < this.cols; i++) {
-                      
-                        Y = this.neuralNetwork[j][i].forward(inputs);   
-                        this.neuralNetwork[j][i].backward(inputs);    
-                        inputs[j]=Y;   
+                for (let j = 0; j < this.rows; j++) {               
 
+                    for (let i = 0; i < this.cols; i++) {
+                        
+                        if(i==0){
+                            inputs[0]= this.trainingSamples[index]
+                        }
+
+                        Y = this.neuralNetwork[j][i].forward(inputs); 
+                        newInputs[i]=Y
+
+                        /*----------- Backpropagation is going in to the wrong direction ------------
+                        this.neuralNetwork[j][i].backward(inputs);  
+                        ---------------------------*/  
+                         
+                        
                         if(j===this.cols-1){
+                            oldError=Object.freeze(error);
                             error +=  (elem - Y)^2;
                             error =(1 / 2)*error; 
                             error = (1/inputs.length)*error;     
                         }
-                        
+                          
                     }
-                    inputs=[]
+
+                    inputs.push(newInputs)             
+                    newInputs=[]
                 }
     
             })
-
+            
             if(Math.abs(error-oldError)<=this.precision){
                 break;
             }
