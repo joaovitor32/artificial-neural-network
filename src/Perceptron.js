@@ -123,18 +123,17 @@ class Perceptron {
     backward(I,Y){
 
         let  delta = [];
-        
-        let gradienteDescendente = 0;
 
         this.desiredValues.forEach((elem,index)=>{
 
-            delta[index]= (elem - Y[index])*(derivativeActivationFunction(I[index]))
-            
+            delta[index]= (elem - Y[index])*(derivativeActivationFunction(I[index],activationFunctionTanh))
+
         })
 
         this.weights.forEach((elem,index)=>{
             this.weights[index] = elem*this.learningRate*delta[index]*Y[index]
         })
+        console.log(this.weights)
     }
 }
 
