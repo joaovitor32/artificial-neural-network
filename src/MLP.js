@@ -81,7 +81,10 @@ export default class MultilayerPerceptron {
 
                     /* --------- Backward ------------- -> Do Fim ao começo */
                    
-                 
+                    for(let k=(this.cols-1);k>=0;k--){
+                        this.neuralNetwork[j][k].backward(this.I[j],this.Y[j])
+                    }
+                    
                 }
     
             })
@@ -92,10 +95,7 @@ export default class MultilayerPerceptron {
     
             epc++;
         }
-
-        //console.log(this.I);
-        //console.log(this.Y)
-
+    
     }
 
 

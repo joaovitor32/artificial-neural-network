@@ -1,4 +1,5 @@
 import activationFunction from '../modules/activationFunction.js';
+import derivativeActivationFunction from '../modules/  derivativeActivationFunction.js';
 
 class Perceptron {
 
@@ -53,15 +54,6 @@ class Perceptron {
         });
 
         return sum;
-    }
-
-    //y = g'(u) - Derivative sign function being utilized
-    derivativeActivationFunction(u) {
-
-        //Using math definition of derivative
-        var h = 0.00000001;
-        return (activationFunction(u + h) - activationFunction(u)) /h;
-      
     }
 
     training(trainingSample) {
@@ -128,25 +120,23 @@ class Perceptron {
 
     }
 
-    backward(inputs){
-        console.log(inputs)
-        //inputs.unshift(-1);
+    backward(I,Y){
+
+        let  delta = [];
         
         let gradienteDescendente = 0;
-        let sumInputs = this.activationPotential(inputs);
-        let I = this.derivativeActivationFunction(sumInputs)
-        
-        let y = this.classification(inputs);
-    
-        this.desiredValues.forEach((elem)=>{
-            gradienteDescendente += (elem-y)*I
-        })
-        
-        this.weights.forEach((elem,index)=>{
-            this.weights[index] = this.weights[index]*this.learningRate*gradienteDescendente*inputs[index]
-        })
-    }
 
+        this.desiredValues.forEach((elem,index)=>{
+
+            delta+= (elem - Y[index])*(derivativeActivationFunction(I[index]))
+        
+        })
+
+        this.weights.forEach((elem,index)=>{
+            this.weights[index] = elem*this.learningRate*gradienteDescendente[index]*Y[index]
+        })
+
+    }
 }
 
 export default Perceptron;
