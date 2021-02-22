@@ -1,3 +1,5 @@
+import activationFunction from '../modules/activationFunction.js';
+
 class Perceptron {
 
     max=1;
@@ -53,27 +55,12 @@ class Perceptron {
         return sum;
     }
 
-    //y=g(u) - Sign function being utilized
-    activationFunction(u) {
-
-        let result;
-       
-        if (u >= 0) {
-            result = 1;
-        } else {
-            result = -1
-        }
-   
-        return result;
-
-    }
-
     //y = g'(u) - Derivative sign function being utilized
     derivativeActivationFunction(u) {
 
         //Using math definition of derivative
         var h = 0.00000001;
-        return (this.activationFunction(u + h) - this.activationFunction(u)) /h;
+        return (activationFunction(u + h) - activationFunction(u)) /h;
       
     }
 
@@ -101,7 +88,7 @@ class Perceptron {
                 
                     let error=0;
                     u = this.activationPotential(trainingSample[index]);
-                    y = this.activationFunction(u);
+                    y = activationFunction(u);
                     
                     if (y != this.desiredValues[index]) {
                         
@@ -126,7 +113,7 @@ class Perceptron {
         sample.unshift(-1);
       
         u = this.activationPotential(sample);
-        y = this.activationFunction(u);
+        y = activationFunction(u);
        
         return y;
 
@@ -135,15 +122,11 @@ class Perceptron {
     
     forward(inputs){
        
-        let inputSum=0;
-        let output = 0
+        let fowardSum=0;
 
-        //inputs.unshift(-1);
+        fowardSum = this.activationPotential(inputs);
 
-        inputSum = this.activationPotential(inputs);
-        output = this.activationFunction(inputSum);
-
-        return output;   
+        return fowardSum;   
 
     }
 

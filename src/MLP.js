@@ -1,6 +1,5 @@
 import Perceptron from './Perceptron.js';
-
-"use strict";
+import activationFunction from '../modules/activationFunction.js';
 
 export default class MultilayerPerceptron {
     activationThreshold = 0;
@@ -53,39 +52,42 @@ export default class MultilayerPerceptron {
         let epc = 0;
         let error = 20;
         let oldError = 100
-        let outputs = [];
-        let newOutputs=[]
-        let Y = 0;
-
-        newOutputs[0]= this.trainingSamples[0]
-
+    
+        let I = [];
+        let Y = [];
+     
         while (epc < this.epochs) {
            
             this.desiredValues.forEach((elem, index) => {
-
-                /*-------- Foward ----------*/
+    
                 for (let j = 0; j < this.rows; j++) {               
                 
-                    for (let i = 0; i < this.cols; i++) {
-                    
-                        Y = this.neuralNetwork[j][i].forward(newOutputs); 
-                        newOutputs[i]=Y
+                    I[j] = [];
+                    Y[j] = [];
 
-                        /*----------- Backpropagation is going in to the wrong direction ------------
-                        this.neuralNetwork[j][i].backward(inputs);  
-                        ---------------------------*/  
-                         
+
+                    for(let i=0; i<this.cols;i++){
                         
-                        if(j===this.cols-1){
-                            oldError=Object.freeze(error);
-                            error +=  (elem - Y)^2;
-                            error =(1 / 2)*error; 
-                            error = (1/outputs.length)*error;     
+                        /* --------- Foward ------------- */
+                        if(i==0){
+                            
+                            this.trainingSamples[j].unshift(-1)
+                            I[j][i] = this.neuralNetwork[j][i].forward(this.trainingSamples[j]);
+
+                        }else{
+            
+                            I[j][i] = this.neuralNetwork[j][i].forward(Y[j]);
+                    
                         }
-                          
+
+                        Y[j][i] = activationFunction(I[j][i])
+
+                        if(j===this.cols-1){
+                            Y[j].unshift(-1);
+                        }
+
                     }
-                    outputs.push(newOutputs)             
-                    newOutputs=[]
+                 
                 }
     
             })
