@@ -66,25 +66,18 @@ export default class MultilayerPerceptron {
                     Y[j] = [];
 
 
-                    for(let i=0; i<this.cols;i++){
+                    for(let i = 0; i<this.cols;i++){
                         
                         /* --------- Foward ------------- */
-                        if(i==0){
-                            
-                            this.trainingSamples[j].unshift(-1)
-                            I[j][i] = this.neuralNetwork[j][i].forward(this.trainingSamples[j]);
 
-                        }else{
-            
-                            I[j][i] = this.neuralNetwork[j][i].forward(Y[j]);
-                    
-                        }
-
+                        I[j][i] = this.neuralNetwork[j][i].forward(i==0?this.trainingSamples[j]:Y[j]);
                         Y[j][i] = activationFunction(I[j][i])
 
-                        if(j===this.cols-1){
+                        if(i===this.cols-1){
                             Y[j].unshift(-1);
                         }
+
+                        /* ---------------- Backward ---------------------- */
 
                     }
                  

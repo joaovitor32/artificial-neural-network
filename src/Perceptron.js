@@ -123,9 +123,7 @@ class Perceptron {
     forward(inputs){
        
         let fowardSum=0;
-
         fowardSum = this.activationPotential(inputs);
-
         return fowardSum;   
 
     }
