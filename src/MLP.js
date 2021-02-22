@@ -5,11 +5,14 @@ export default class MultilayerPerceptron {
     activationThreshold = 0;
     weights = []
     learningRate = 0;
-    desiredValues = []
+    desiredValues = [];
     epochs = 0;
     precision = 0;
-    neuralNetwork = []
+    neuralNetwork = [];
     trainingSamples;
+
+    I;
+    Y;
 
     constructor(
         activationThreshold = -1,
@@ -53,8 +56,8 @@ export default class MultilayerPerceptron {
         let error = 20;
         let oldError = 100
     
-        let I = [];
-        let Y = [];
+        this.I = [];
+        this.Y = [];
 
         while (epc < this.epochs) {
            
@@ -62,35 +65,36 @@ export default class MultilayerPerceptron {
     
                 for (let j = 0; j < this.rows; j++) {               
                 
-                    I[j] = [];
-                    Y[j] = [];
+                    this.I[j] = [];
+                    this.Y[j] = [];
 
                     for(let i = 0; i<this.cols;i++){
-                
-                        /* --------- Foward ------------- */
                         
-                        I[j][i] = this.neuralNetwork[j][i].forward(i==0?this.trainingSamples[j]:Y[j]);
-                        Y[j][i] = activationFunction(I[j][i])
+                        this.I[j][i] = this.neuralNetwork[j][i].forward(i==0?this.trainingSamples[j]:this.Y[j]);
+                        this.Y[j][i] = activationFunction(this.I[j][i])
 
                         if(i===this.cols-1){
-                            Y[j].unshift(-1);
+                            this.Y[j].unshift(-1);
                         }
-               
-
-                        /* ---------------- Backward ---------------------- */
-
+                
                     }
+
+                    /* --------- Backward ------------- -> Do Fim ao começo */
+                   
                  
                 }
     
             })
-            
+
             if(Math.abs(error-oldError)<=this.precision){
                 break;
             }
     
             epc++;
         }
+
+        //console.log(this.I);
+        //console.log(this.Y)
 
     }
 

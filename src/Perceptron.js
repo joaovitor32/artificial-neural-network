@@ -129,7 +129,7 @@ class Perceptron {
     }
 
     backward(inputs){
-       
+        console.log(inputs)
         //inputs.unshift(-1);
         
         let gradienteDescendente = 0;
