@@ -14,7 +14,7 @@ let MLP = new MultilayerPerceptron(
     1000,
     trainingSample,
     4,
-    3,
+    4,
     0.001,    
 )
 
