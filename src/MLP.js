@@ -1,5 +1,6 @@
 import Perceptron from './Perceptron.js';
-import activationFunction from '../modules/activationFunction.js';
+import activationFunction from '../modules/activationFunction.js'
+import activationFunctionTanh from '../modules/activationFunctionTanh.js';
 
 export default class MultilayerPerceptron {
     activationThreshold = 0;
@@ -71,7 +72,7 @@ export default class MultilayerPerceptron {
                     for(let i = 0; i<this.cols;i++){
                         
                         this.I[j][i] = this.neuralNetwork[j][i].forward(i==0?this.trainingSamples[j]:this.Y[j]);
-                        this.Y[j][i] = activationFunction(this.I[j][i])
+                        this.Y[j][i] = activationFunctionTanh(this.I[j][i])
 
                         if(i===this.cols-1){
                             this.Y[j].unshift(-1);
