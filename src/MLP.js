@@ -72,7 +72,7 @@ export default class MultilayerPerceptron {
                     for(let i = 0; i<this.cols;i++){
 
                         if(i!=0){
-                            this.Y[j].unshift(-1);
+                            this.Y[j].unshift(this.activationThreshold);
                         }
                 
                         this.I[j][i] = this.neuralNetwork[j][i].forward(i==0?this.trainingSamples[j]:this.Y[j]);

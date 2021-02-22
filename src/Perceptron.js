@@ -102,7 +102,7 @@ class Perceptron {
         let y = 0;
         let u = 0;
        
-        sample.unshift(-1);
+        sample.unshift(this.activationThreshold);
       
         u = this.activationPotential(sample);
         y = activationFunctionTanh(u);
@@ -133,7 +133,7 @@ class Perceptron {
         this.weights.forEach((elem,index)=>{
             this.weights[index] = elem*this.learningRate*delta[index]*Y[index]
         })
-        console.log(this.weights)
+
     }
 }
 
