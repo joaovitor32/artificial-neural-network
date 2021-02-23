@@ -111,6 +111,7 @@ class Perceptron {
 
     }
 
+    //Foward and Backard are related only to multilayer Perceptron
     
     forward(inputs){
        
