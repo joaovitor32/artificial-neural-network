@@ -1,5 +1,3 @@
-import activationFunction from './activationFunction.js';
-
 //y = g'(u) - Derivative sign function being utilized
 const derivativeActivationFunction = (u,f) => {
 

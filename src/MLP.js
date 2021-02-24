@@ -1,6 +1,5 @@
 import Perceptron from './Perceptron.js';
-import activationFunction from '../modules/activationFunction.js'
-import activationFunctionTanh from '../modules/activationFunctionTanh.js';
+import activation from '../modules/pickActivationFunction.js'
 
 export default class MultilayerPerceptron {
     activationThreshold = 0;
@@ -60,6 +59,8 @@ export default class MultilayerPerceptron {
         this.I = [];
         this.Y = [];
 
+        let { activationFunctionTanh} = activation()
+        
         while (epc < this.epochs) {
            
             this.desiredValues.forEach((elem, index) => {

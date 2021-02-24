@@ -1,5 +1,4 @@
-import activationFunctionTanh from '../modules/activationFunctionTanh.js';
-import derivativeActivationFunction from '../modules/  derivativeActivationFunction.js';
+import activation from '../modules/pickActivationFunction.js'
 
 class Perceptron {
 
@@ -74,12 +73,15 @@ class Perceptron {
         let y = 0;
         let u = 0;
 
+        let { activationFunctionTanh } = activation('tanh')
+
         while (i < this.epochs && !error) {
 
             this.desiredValues.forEach((elem, index) => {
                 
                     let error=0;
                     u = this.activationPotential(trainingSample[index]);
+                    
                     y = activationFunctionTanh(u);
                     
                     if (y != this.desiredValues[index]) {
@@ -102,6 +104,8 @@ class Perceptron {
         let y = 0;
         let u = 0;
        
+        let { activationFunctionTanh} = activation()
+
         sample.unshift(this.activationThreshold);
       
         u = this.activationPotential(sample);
@@ -123,6 +127,8 @@ class Perceptron {
     backward(I,Y){
 
         let  delta = [];
+
+        let { activationFunctionTanh,derivativeActivationFunction} = activation()
 
         this.desiredValues.forEach((elem,index)=>{
 

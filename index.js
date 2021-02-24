@@ -9,7 +9,7 @@ let trainingSample = [A,B,C,D]
 
 let MLP = new MultilayerPerceptron(
     -1,
-    0.15,
+    0.01,
     [1,-1,-1,1],
     1000,
     trainingSample,
